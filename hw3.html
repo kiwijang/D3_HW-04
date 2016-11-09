@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>D3_HW-04</title>
+    <script src="//d3js.org/d3.v3.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <div class="first_col">
+      <p class="h">&nbsp;長條圖2016年8月&&台北市&&發票金額>10億元的項目</p>
+      <svg class="svg1" width="420" height="250">  
+      </svg>
+
+       <script>
+           d3.json("invoice-taipei.json", function(dataSet){
+               var svg = d3.select("svg");
+               var count = 0;
+               for(var i=0; i<dataSet.length; i++){
+                    if(dataSet[i].date === "2016/8/1" && dataSet[i].cid === "A" && parseInt(dataSet[i].amount)>1000000000){
+                          d3.select("svg")
+                            .append("rect")
+                            .attr({
+                            x: 200,
+                            y: 31+16*count,
+                            width: parseInt(dataSet[i].amount)/100000000,
+                            height: 10,
+                            fill: "red"
+                          });
+                          d3.select("svg")
+                            .append("text")
+                            .attr({
+                            x: 20,
+                            y: 40+16*count,
+                            "font-size": 10         }).text(dataSet[i].industry);
+                            count++;
+
+                     }
+
+                }
+           });
+       </script>
+</div>
+<div class="second_col">
+    <p>&nbsp;陣列/把小於70改成紅色</p>
+         <script>
+            var arr = [85, 60, 99, 49, 77, 82]
+            bind(arr);
+            render();
+            
+            function bind(data){
+                var selection = d3.select("body")
+                .select(".second_col")
+                .selectAll("div")
+                .data(data);
+                
+                selection.enter().append("div");
+                selection.exit().remove();
+            }
+
+            function render(){
+                
+                d3.select(".second_col")
+                  .selectAll("div")
+                  .text(function(d,i){
+                    return i+1 + ":" + d;
+                  });
+                d3.select(".second_col")
+                  .selectAll("div")
+                  .style({
+                            color: function(d){
+                                if(d<70){
+                                    return "red"
+                                }
+                                else{
+                                    return "black"
+                                }
+                            } 
+                });
+            };          
+        </script>
+</div>
+<div class="third_col">
+    <p>&nbsp;建立簡單長條圖表</p>
+       <input type="button" value="新增" onclick="update()"><br>
+        <script>
+            var w=800;
+            var h=200;
+            var p=50;
+            
+            var arr=[45,76,96,35,88,69];
+            
+            svg(w,h,p);
+            bind(arr);
+            render(w,h,p);
+            bind2(arr);
+            render2(w,h,p);
+            
+            function svg(w,h,p){
+                d3.select("body")
+                    .select(".third_col")
+                    .append("svg").attr({
+                    width: w,
+                    height: h
+                })
+            };
+            
+            function update(){
+                var num = random(20,100);
+                arr.push(num);
+                bind(arr);
+                render(w,h,p);
+                bind2(arr);
+                render2(w,h,p);
+            }
+            
+            function bind(data){ 
+                var selection = 
+                d3.select(".third_col")
+                .select("svg") 
+                .selectAll("rect")
+                .data(data); 
+                
+                selection.enter().append("rect"); selection.exit().remove(); 
+            }; 
+            
+            function render(w,h,p){ 
+                d3.select(".third_col")
+                .select("svg")
+                .selectAll("rect").attr({
+                    x: function(d,i){return p+45*i;},
+                    y: function(d,i){return h-p-d;},
+                    width: 40,
+                    height: function(d){return d;},
+                    fill: function(d){
+                            if(d<70){
+                                return "red";
+                            }
+                            else{
+                                return "lightgreen";
+                            }
+                          },
+         
+                })
+                
+            };
+            
+            function bind2(data){
+                var selection = 
+                d3.select(".third_col")
+                .select("svg") 
+                .selectAll("text")
+                .data(data); 
+                
+                selection.enter().append("text"); selection.exit().remove(); 
+            }
+            
+            function render2(w,h,p){ 
+                d3.select(".third_col")
+                .select("svg").selectAll("text").attr({
+                    x: function(d,i){return p+45*i+10;},
+                    y: h - 30,
+                    fill: "black"
+                }).text(function(d){return d;})
+                
+            };
+            
+            function random(n, m) {
+      return Math.ceil(Math.random() * (m - n) + n);
+    }
+            
+            
+        </script>
+</div>
+</body>
+</html>

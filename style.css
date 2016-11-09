@@ -1,0 +1,34 @@
+.first_col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 20px 50px 50px 0px;
+    background-color: #ffe4e4;
+    max-width: 600px;
+}
+
+p {
+    font-family: 微軟正黑體;
+    font-size: 20px;
+    border-left: 10px solid yellow;
+}
+
+svg1 {
+    background: pink;
+}
+
+.second_col {
+    max-width: 550px;
+    margin: 10px 0;
+    padding: 5px 50px 30px 50px;
+    background-color: #fcf8f8;
+    background: #d7c8dd;
+}
+
+.third_col {
+    margin: 10px 0;
+    padding: 5px 0px 30px 50px;
+    background-color: #cfe1f0;
+}
